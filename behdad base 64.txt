@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Behdad Base64 Tool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-200 min-h-screen flex flex-col items-center justify-center font-sans p-4">
+
+  <!-- لوگو -->
+  <div class="text-center mb-6 fade-in">
+    <div class="text-5xl font-extrabold text-gray-800 tracking-wide select-none">
+      <span class="text-blue-500">behdad</span>
+    </div>
+    <p class="text-gray-500 mt-2 text-sm">ابزار رمزگذاری و رمزگشایی Base64</p>
+  </div>
+
+  <!-- کارت اصلی -->
+  <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-xl fade-in">
+    <textarea id="input" placeholder="متن خود را اینجا وارد کنید..." class="w-full h-32 border border-gray-300 rounded-xl p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none mb-3"></textarea>
+
+    <div class="flex flex-wrap justify-center gap-2 mb-3">
+      <button onclick="encode()" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-xl transition">Encode 🔒</button>
+      <button onclick="decode()" class="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-xl transition">Decode 🔓</button>
+      <button onclick="copyOutput()" class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-xl transition">Copy 📋</button>
+      <button onclick="clearAll()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl transition">Clear 🧹</button>
+    </div>
+
+    <textarea id="output" placeholder="نتیجه در اینجا نمایش داده می‌شود..." readonly class="w-full h-32 border border-gray-300 rounded-xl p-3 text-gray-700 bg-gray-50 resize-none"></textarea>
+  </div>
+
+  <script>
+    function encode() {
+      const text = document.getElementById('input').value;
+      try {
+        const encoded = btoa(unescape(encodeURIComponent(text)));
+        document.getElementById('output').value = encoded;
+      } catch (e) {
+        alert('❌ خطا در رمزگذاری. مطمئن شو متن معتبر است.');
+      }
+    }
+
+    function decode() {
+      const text = document.getElementById('input').value;
+      try {
+        const decoded = decodeURIComponent(escape(atob(text)));
+        document.getElementById('output').value = decoded;
+      } catch (e) {
+        alert('❌ خطا در رمزگشایی. کد Base64 معتبر نیست.');
+      }
+    }
+
+    function copyOutput() {
+      const out = document.getElementById('output');
+      out.select();
+      document.execCommand('copy');
+      alert('✅ نتیجه کپی شد!');
+    }
+
+    function clearAll() {
+      document.getElementById('input').value = '';
+      document.getElementById('output').value = '';
+    }
+  </script>
+</body>
+</html>
